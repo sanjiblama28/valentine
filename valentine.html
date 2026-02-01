@@ -6,22 +6,18 @@
 <meta name="theme-color" content="#000000">
 <title>For My Love</title>
 
+<link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-
 body{
     font-family:'Playfair Display', serif;
     height:100vh;
     overflow:hidden;
     background:black;
     color:white;
-    -webkit-tap-highlight-color: transparent;
 }
-
-/* Hide scrollbars */
-body::-webkit-scrollbar{display:none;}
 
 /* PASSWORD */
 #lockScreen{
@@ -260,7 +256,11 @@ button{
 </audio>
 
 <script>
-const correctPassword="0612"; // change this
+const correctPassword="0612"; // CHANGE THIS
+
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('service-worker.js');
+}
 
 function unlock(){
     if(document.getElementById("password").value===correctPassword){
@@ -287,13 +287,15 @@ function startExperience(){
 
 const message=`
 From Sri Lanka sunsets to Busan’s ocean breeze,
-from Seoul nights to our lazy movie marathons —
+from Seoul and incheon nights to our lazy movie marathons —
 every memory with my baby feels unreal.
 
 From crazy dancing and singing
 to laying down watching movies
 and dreaming about our future,
 every moment with my love matters.
+ 
+Will you be my Valentine my love?
 
 On February 14,
 even if we are far apart,
