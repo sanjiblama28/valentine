@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#000000">
+<title>For My Love</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family:'Playfair Display', serif;
+    height:100vh;
+    overflow:hidden;
+    background:black;
+    color:white;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Hide scrollbars */
+body::-webkit-scrollbar{display:none;}
+
+/* PASSWORD */
+#lockScreen{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:50;
+}
+
+#lockScreen input{
+    padding:12px;
+    font-size:18px;
+    margin-top:15px;
+    text-align:center;
+    border:none;
+}
+
+#lockScreen button{
+    margin-top:10px;
+    padding:10px 20px;
+    border:none;
+    background:#ff4da6;
+    color:white;
+}
+
+/* INTRO */
+#intro{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:black;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:40;
+    cursor:pointer;
+    transition:opacity 2s ease;
+}
+
+#intro h1{
+    font-size:60px;
+    animation:glow 3s infinite alternate;
+}
+
+@keyframes glow{
+    from{text-shadow:0 0 10px #ff8cf0;}
+    to{text-shadow:0 0 35px #ff4dd2;}
+}
+
+/* SLIDESHOW */
+.slideshow{
+    position:fixed;
+    width:100%;
+    height:100%;
+    z-index:-3;
+}
+
+.slideshow img{
+    position:absolute;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:0;
+    transform:scale(1);
+    transition:opacity 2s ease, transform 12s ease;
+}
+
+.slideshow img.active{
+    opacity:1;
+    transform:scale(1.15);
+}
+
+.overlay{
+    position:fixed;
+    width:100%;
+    height:100%;
+    backdrop-filter:blur(6px);
+    background:rgba(0,0,0,0.4);
+    z-index:-1;
+}
+
+.container{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:25px;
+}
+
+.box{max-width:850px;}
+
+h2{font-size:32px;margin-bottom:20px;}
+
+p{
+    font-size:18px;
+    line-height:1.8;
+    min-height:180px;
+}
+
+button{
+    padding:12px 28px;
+    margin:8px;
+    border:none;
+    cursor:pointer;
+    font-size:16px;
+    border-radius:6px;
+}
+
+#yesBtn{background:#ff4da6;color:white;}
+#noBtn{background:white;color:black;}
+
+#response{margin-top:15px;font-size:20px;}
+#countdown{margin:15px 0;color:#ffd6f6;}
+
+.sparkle,.snow{
+    position:absolute;
+    pointer-events:none;
+}
+
+.sparkle{
+    width:3px;
+    height:3px;
+    background:white;
+    border-radius:50%;
+    animation:floatUp linear infinite;
+}
+
+.snow{
+    color:white;
+    font-size:10px;
+    animation:fall linear infinite;
+}
+
+@keyframes floatUp{
+    from{transform:translateY(0);}
+    to{transform:translateY(-110vh);}
+}
+
+@keyframes fall{
+    from{transform:translateY(-10vh);}
+    to{transform:translateY(110vh);}
+}
+
+.candleGlow{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:140px;
+    background:radial-gradient(circle at center, rgba(255,180,100,0.4), transparent 70%);
+    animation:flicker 2s infinite alternate;
+}
+
+@keyframes flicker{
+    from{opacity:0.6;}
+    to{opacity:1;}
+}
+
+#final{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 3s ease;
+    z-index:60;
+}
+
+#final h1{
+    font-size:60px;
+    animation:glow 3s infinite alternate;
+}
+</style>
+</head>
+
+<body>
+
+<div id="lockScreen">
+    <h2>Enter our anniversary date (DDMM)</h2>
+    <input type="password" id="password">
+    <button onclick="unlock()">Enter</button>
+</div>
+
+<div id="intro" onclick="startExperience()">
+    <h1>Milena ❤️</h1>
+    <p>Tap to begin</p>
+</div>
+
+<div class="slideshow">
+    <img src="us1.jpg" class="active">
+    <img src="us2.jpg">
+    <img src="us3.jpg">
+    <img src="us4.jpg">
+    <img src="us5.jpg">
+    <img src="us6.jpg">
+    <img src="us7.jpg">
+    <img src="us8.jpg">
+    <img src="us9.jpg">
+    <img src="us10.jpg">
+</div>
+
+<div class="overlay"></div>
+
+<div class="container">
+<div class="box">
+<h2>2 Years 8 Months</h2>
+<p id="typedText"></p>
+<div id="countdown"></div>
+
+<button id="yesBtn" onclick="yes()">Yes 💕</button>
+<button id="noBtn" onclick="no()">No 🙃</button>
+
+<p id="response"></p>
+</div>
+</div>
+
+<div class="candleGlow"></div>
+
+<div id="final">
+    <h1>I Love You ❤️</h1>
+</div>
+
+<audio id="bgMusic" loop>
+<source src="music.mp3">
+</audio>
+
+<script>
+const correctPassword="0612"; // change this
+
+function unlock(){
+    if(document.getElementById("password").value===correctPassword){
+        document.getElementById("lockScreen").style.display="none";
+        document.getElementById("intro").style.display="flex";
+    }
+}
+
+function startExperience(){
+    const intro=document.getElementById("intro");
+    intro.style.opacity="0";
+    setTimeout(()=>intro.style.display="none",2000);
+
+    const music=document.getElementById("bgMusic");
+    music.volume=0;
+    music.play();
+    let fade=setInterval(()=>{
+        if(music.volume<0.8) music.volume+=0.02;
+        else clearInterval(fade);
+    },200);
+
+    typeText();
+}
+
+const message=`
+From Sri Lanka sunsets to Busan’s ocean breeze,
+from Seoul nights to our lazy movie marathons —
+every memory with my baby feels unreal.
+
+From crazy dancing and singing
+to laying down watching movies
+and dreaming about our future,
+every moment with my love matters.
+
+On February 14,
+even if we are far apart,
+will you have a candlelight dinner with me virtually?
+`;
+
+let i=0;
+function typeText(){
+    if(i<message.length){
+        document.getElementById("typedText").innerHTML+=message.charAt(i);
+        i++;
+        setTimeout(typeText,30);
+    }
+}
+
+let slides=document.querySelectorAll(".slideshow img");
+let current=0;
+setInterval(()=>{
+    slides[current].classList.remove("active");
+    current=(current+1)%slides.length;
+    slides[current].classList.add("active");
+},7000);
+
+setInterval(()=>{
+    const snow=document.createElement("div");
+    snow.classList.add("snow");
+    snow.innerHTML="❄";
+    snow.style.left=Math.random()*100+"vw";
+    snow.style.animationDuration=(5+Math.random()*5)+"s";
+    document.body.appendChild(snow);
+    setTimeout(()=>snow.remove(),10000);
+},300);
+
+setInterval(()=>{
+    const s=document.createElement("div");
+    s.classList.add("sparkle");
+    s.style.left=Math.random()*100+"vw";
+    s.style.animationDuration=(4+Math.random()*4)+"s";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),6000);
+},200);
+
+setInterval(()=>{
+    const now=new Date();
+    let year=now.getFullYear();
+    let target=new Date(`February 14, ${year}`);
+    if(now>target) target=new Date(`February 14, ${year+1}`);
+    let diff=target-now;
+    let d=Math.floor(diff/(1000*60*60*24));
+    let h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+    let m=Math.floor((diff%(1000*60*60))/(1000*60));
+    document.getElementById("countdown").innerHTML=
+    "Countdown: "+d+"d "+h+"h "+m+"m";
+},1000);
+
+function yes(){
+    document.getElementById("response").innerHTML="It’s a date ❤️";
+    setTimeout(()=>{
+        document.getElementById("final").style.opacity="1";
+    },2500);
+}
+
+function no(){
+    document.getElementById("noBtn").style.display="none";
+    document.getElementById("response").innerHTML="Nice try, my love 😌";
+}
+</script>
+
+</body>
+</html>
